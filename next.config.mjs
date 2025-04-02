@@ -13,6 +13,8 @@ const nextConfig = {
   },
   reactStrictMode: true,
   trailingSlash: true,
+  basePath: '',
+  assetPrefix: '',
   eslint: {
     ignoreDuringBuilds: true,
   },
