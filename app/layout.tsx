@@ -13,7 +13,7 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "Subham Mitra | Portfolio",
   description: "Personal portfolio of Subham Mitra, EECS @ UC Berkeley",
-    generator: 'v0.dev'
+  generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -22,11 +22,16 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`${spaceGrotesk.className} bg-black text-white`}>
-        <ThemeProvider attribute="class" defaultTheme="dark">
-          <Navbar />
-          {children}
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
+      <body className={spaceGrotesk.className}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <div className="min-h-screen bg-black text-white">
+            <Navbar />
+            <main>{children}</main>
+          </div>
         </ThemeProvider>
       </body>
     </html>
