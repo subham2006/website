@@ -122,25 +122,9 @@
       let isDark = prefersDark;
       let isOverridden = false;
       
-      async function loadRandomImage() {
-        try {
-          const response = await fetch('images/');
-          const text = await response.text();
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(text, 'text/html');
-          const links = doc.querySelectorAll('a[href$=".png"], a[href$=".jpg"], a[href$=".jpeg"], a[href$=".gif"], a[href$=".webp"]');
-          const images = Array.from(links).map(link => link.href.split('/').pop());
-          
-          if (images.length > 0) {
-            const randomImageSrc = images[Math.floor(Math.random() * images.length)];
-            randomImage.src = `images/${randomImageSrc}`;
-          }
-        } catch (error) {
-          randomImage.src = 'images/umbrella.png';
-        }
-      }
-      
-      loadRandomImage();
+      const images = ['umbrella.png'];
+      const randomImageSrc = images[Math.floor(Math.random() * images.length)];
+      randomImage.src = `images/${randomImageSrc}`;
       
       function updateTheme() {
         if (isDark) {
