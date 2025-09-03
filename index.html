@@ -17,6 +17,16 @@
         position: relative;
       }
       
+      h1 {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+        padding-top: 20px;
+        z-index: 10;
+      }
+      
       @media (prefers-color-scheme: dark) {
         body {
           background-color: #1a1a1a;
@@ -76,11 +86,18 @@
       [data-theme="light"] .icons img {
         filter: none;
       }
+      
+      .center-image {
+        margin: 20px 0;
+        max-width: 200px;
+        height: auto;
+      }
     </style>
   </head>
   <body>
     <button class="theme-toggle" id="theme-toggle">☀️</button>
     <h1>Subham Mitra</h1>
+    <img id="random-image" alt="Random Image" class="center-image">
     <div class="icons">
       <a href="https://www.github.com/subham2006" target="_blank">
         <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg" alt="github">
@@ -99,10 +116,31 @@
     <script>
       const themeToggle = document.getElementById('theme-toggle');
       const body = document.body;
+      const randomImage = document.getElementById('random-image');
       
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       let isDark = prefersDark;
       let isOverridden = false;
+      
+      async function loadRandomImage() {
+        try {
+          const response = await fetch('images/');
+          const text = await response.text();
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(text, 'text/html');
+          const links = doc.querySelectorAll('a[href$=".png"], a[href$=".jpg"], a[href$=".jpeg"], a[href$=".gif"], a[href$=".webp"]');
+          const images = Array.from(links).map(link => link.href.split('/').pop());
+          
+          if (images.length > 0) {
+            const randomImageSrc = images[Math.floor(Math.random() * images.length)];
+            randomImage.src = `images/${randomImageSrc}`;
+          }
+        } catch (error) {
+          randomImage.src = 'images/umbrella.png';
+        }
+      }
+      
+      loadRandomImage();
       
       function updateTheme() {
         if (isDark) {
