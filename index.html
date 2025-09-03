@@ -137,8 +137,21 @@
       let isOverridden = false;
       
       const images = ['umbrella.png', 'flowers.png'];
-      const randomImageSrc = images[Math.floor(Math.random() * images.length)];
-      randomImage.src = `images/${randomImageSrc}`;
+      let currentImageIndex = -1;
+      
+      function selectRandomImage() {
+        let newIndex;
+        do {
+          newIndex = Math.floor(Math.random() * images.length);
+        } while (newIndex === currentImageIndex && images.length > 1);
+        
+        currentImageIndex = newIndex;
+        randomImage.src = `images/${images[currentImageIndex]}`;
+      }
+      
+      selectRandomImage();
+      
+      randomImage.addEventListener('click', selectRandomImage);
       
       function updateTheme() {
         if (isDark) {
